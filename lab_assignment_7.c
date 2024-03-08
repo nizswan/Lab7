@@ -1,22 +1,27 @@
-//Cristian McGee COP3502C Lab Assignment 7
+//Cristian McGee Cop3502C Lab 7
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 int bubbleSortCount(int* arr, int* arrCounter);
 int selectionSortCount(int* arr, int* arrCounter);
-//in this code I don't make a variable to represent 9 just because 9 is always 9
 
 int main(){
     int array1[9] = {97, 16, 45, 63, 13, 22, 7, 58, 72};
     int array2[9] = {90, 80, 70, 60, 50, 40, 30, 20, 10};
+    int array1copy[9], array2copy[9];
+    for(int i = 0; i < 9; i++){
+        array1copy[i] = array1[i];
+        array2copy[i] = array2[i];
+    }
 
     int arr1BubbleSort, arr1SelectionSort, arr2BubbleSort, arr2SelectionSort;
     int array1BubbleSortCount[9], array1SelectionSortCount[9], array2BubbleSortCount[9], array2SelectionSortCount[9];
     
     arr1BubbleSort = bubbleSortCount(array1, array1BubbleSortCount);
-    arr1SelectionSort = selectionSortCount(array1, array1SelectionSortCount);
+    arr1SelectionSort = selectionSortCount(array1copy, array1SelectionSortCount);
     arr2BubbleSort = bubbleSortCount(array2, array2BubbleSortCount);
-    arr2SelectionSort = selectionSortCount(array2, array2SelectionSortCount);
+    arr2SelectionSort = selectionSortCount(array2copy, array2SelectionSortCount);
     
 
     for(int i = 0; i < 4; i++){
@@ -60,22 +65,17 @@ int main(){
 
 int bubbleSortCount(int* arr, int* arrCounter){
     int totalSwaps = 0;
-    int* tempArr = (int*)malloc(9 * sizeof(int));
     
-    for(int i = 0; i < 9; i++){
-        tempArr[i] = arr[i];
-    }
-
     for (int i = 0; i < 9; i++) {
         arrCounter[i] = 0;
     }
 
     for (int i = 0; i < 9 - 1; i++) {
         for (int j = 0; j < 9 - i - 1; j++) {
-            if (tempArr[j] > tempArr[j + 1]) {
-                int temp = tempArr[j];
-                tempArr[j] = tempArr[j + 1];
-                tempArr[j + 1] = temp;
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
 
                 arrCounter[j]++;
                 arrCounter[j + 1]++;
@@ -84,17 +84,11 @@ int bubbleSortCount(int* arr, int* arrCounter){
         }
     }
 
-    free(tempArr);
     return totalSwaps;
 }
 
 int selectionSortCount(int* arr, int* arrCounter){
     int totalSwaps = 0;
-    int* tempArr = (int*)malloc(9 * sizeof(int));
-
-    for(int i = 0; i < 9; i++){
-        tempArr[i] = arr[i];
-    }
 
     for (int i = 0; i < 9; i++) {
         arrCounter[i] = 0;
@@ -103,14 +97,14 @@ int selectionSortCount(int* arr, int* arrCounter){
     for (int i = 0; i < 9 - 1; i++) {
         int n = i;
         for (int j = i + 1; j < 9; j++) {
-            if (tempArr[j] < tempArr[n]) {
+            if (arr[j] < arr[n]) {
                 n = j;
             }
         }
         if (n != i) {
-            int temp = tempArr[i];
-            tempArr[i] = tempArr[n];
-            tempArr[n] = temp;
+            int temp = arr[i];
+            arr[i] = arr[n];
+            arr[n] = temp;
 
             arrCounter[i]++;
             arrCounter[n]++;
@@ -118,6 +112,5 @@ int selectionSortCount(int* arr, int* arrCounter){
         }
     }
 
-    free(tempArr); 
     return totalSwaps;
 }
